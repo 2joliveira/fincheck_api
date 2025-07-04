@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '@prisma/client';
 import { hash } from 'bcryptjs';
-import { UsersRepository } from 'src/shared/repositories/users.repository';
+import { UsersRepository } from 'src/shared/database/repositories/users.repository';
 
 @Injectable()
 export class UsersService {
