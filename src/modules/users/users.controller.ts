@@ -1,14 +1,15 @@
 import { Controller, Get, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 
+interface RequestParams {
+  userId: string;
+}
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('/me')
-  me(@Req() request: any) {
-    console.log({ meId: request.userId });
-
-    return this.usersService.getUserById('userId');
+  me(@Req() request: RequestParams) {
+    return this.usersService.getUserById(request.userId);
   }
 }
