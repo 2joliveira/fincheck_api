@@ -7,10 +7,9 @@ import { BankAccountsRepository } from 'src/shared/database/repositories/bank-ac
 export class BankAccountsService {
   constructor(private readonly bankAccountRepository: BankAccountsRepository) {}
 
-  create(
-    userId: string,
-    { name, color, initialBalance, type }: CreateBankAccountDto,
-  ) {
+  create(userId: string, createBankAccountDto: CreateBankAccountDto) {
+    const { name, color, initialBalance, type } = createBankAccountDto;
+
     return this.bankAccountRepository.create({
       data: {
         name,
@@ -28,11 +27,33 @@ export class BankAccountsService {
     });
   }
 
-  update(id: number, updateBankAccountDto: UpdateBankAccountDto) {
-    return { id, updateBankAccountDto };
+  async update(
+    userId: string,
+    bankAccountId: string,
+    updateBankAccountDto: UpdateBankAccountDto,
+  ) {
+    const { name, color, initialBalance, type } = updateBankAccountDto;
+
+    const isOwner = await this.bankAccountRepository.findFirst({
+      where: { id: bankAccountId, userId },
+    });
+
+    if (!isOwner) {
+      throw new Error('Bank account not found.');
+    }
+
+    return this.bankAccountRepository.update({
+      where: { id: bankAccountId },
+      data: {
+        name,
+        color,
+        initialBalance,
+        type,
+      },
+    });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} bankAccount`;
   }
 }
