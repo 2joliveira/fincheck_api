@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBankAccountDto } from './dto/create-bank-account.dto';
-import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 import { BankAccountsRepository } from 'src/shared/database/repositories/bank-acounts.respository';
+import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
+import { UpdateBankAccountDto } from '../dto/update-bank-account.dto';
+import { ValidateBankAccountOwnerShipService } from './validate-bank-account-ownership.service';
 
 @Injectable()
 export class BankAccountsService {
-  constructor(private readonly bankAccountRepository: BankAccountsRepository) {}
+  constructor(
+    private readonly bankAccountRepository: BankAccountsRepository,
+    private readonly validateBankAccountOwnerShipService: ValidateBankAccountOwnerShipService,
+  ) {}
 
   create(userId: string, createBankAccountDto: CreateBankAccountDto) {
     const { name, color, initialBalance, type } = createBankAccountDto;
@@ -34,7 +38,10 @@ export class BankAccountsService {
   ) {
     const { name, color, initialBalance, type } = updateBankAccountDto;
 
-    await this.validateBankAccuntOwner(userId, bankAccountId);
+    await this.validateBankAccountOwnerShipService.validate(
+      userId,
+      bankAccountId,
+    );
 
     return this.bankAccountRepository.update({
       where: { id: bankAccountId },
@@ -48,22 +55,15 @@ export class BankAccountsService {
   }
 
   async remove(userId: string, bankAccountId: string) {
-    await this.validateBankAccuntOwner(userId, bankAccountId);
+    await this.validateBankAccountOwnerShipService.validate(
+      userId,
+      bankAccountId,
+    );
 
     await this.bankAccountRepository.delete({
       where: { id: bankAccountId },
     });
 
     return null;
-  }
-
-  private async validateBankAccuntOwner(userId: string, bankAccountId: string) {
-    const isOwner = await this.bankAccountRepository.findFirst({
-      where: { id: bankAccountId, userId },
-    });
-
-    if (!isOwner) {
-      throw new Error('Bank account not found.');
-    }
   }
 }
