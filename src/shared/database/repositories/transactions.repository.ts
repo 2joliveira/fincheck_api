@@ -9,4 +9,8 @@ export class TransactionsRepository {
   findMAny(findManyDto: Prisma.TransactionFindManyArgs) {
     return this.prismaService.transaction.findMany(findManyDto);
   }
+
+  create(createDto: Prisma.TransactionCreateArgs) {
+    return this.prismaService.transaction.create(createDto);
+  }
 }
