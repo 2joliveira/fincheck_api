@@ -4,6 +4,7 @@ import { CategoriesRepository } from 'src/shared/database/repositories/categorie
 @Injectable()
 export class CategoriesService {
   constructor(private readonly categoriesRepository: CategoriesRepository) {}
+
   findAllByUserId(userId: string) {
     return this.categoriesRepository.findMany({
       where: { userId },
