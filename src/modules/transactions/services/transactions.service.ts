@@ -34,9 +34,16 @@ export class TransactionsService {
     });
   }
 
-  findAllByUserId(userId: string) {
+  findAllByUserId(userId: string, filters: { month: number; year: number }) {
+    const { year, month } = filters;
     return this.transactionRepository.findMAny({
-      where: { userId },
+      where: {
+        userId,
+        date: {
+          gte: new Date(Date.UTC(year, month)),
+          lt: new Date(Date.UTC(year, month)),
+        },
+      },
     });
   }
 
