@@ -5,6 +5,7 @@ import { ValidateCategoryOwnershipService } from 'src/modules/categories/service
 import { ValidateTransactionOwnershipService } from './validate-transaction-ownership.service';
 import { CreateTransactionDto } from '../dto/create-transaction.dto';
 import { UpdateTransactionDto } from '../dto/update-transaction.dto';
+import { TransactionType } from '../entities/Transactions';
 
 @Injectable()
 export class TransactionsService {
@@ -36,13 +37,19 @@ export class TransactionsService {
 
   findAllByUserId(
     userId: string,
-    filters: { month: number; year: number; bankAccountId?: string },
+    filters: {
+      month: number;
+      year: number;
+      bankAccountId?: string;
+      type?: TransactionType;
+    },
   ) {
-    const { year, month, bankAccountId } = filters;
+    const { year, month, bankAccountId, type } = filters;
     return this.transactionRepository.findMAny({
       where: {
         userId,
         bankAccountId,
+        type,
         date: {
           gte: new Date(Date.UTC(year, month)),
           lt: new Date(Date.UTC(year, month + 1)),
