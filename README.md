@@ -1,98 +1,115 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ✅ Fincheck
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API Rest desenvolvida com o intuito de fornecer ao usuário uma forma de gerenciar suas contas bancárias e suas respectivas transações. Desenvolvida com NodeJs e NestJS,esta API implementa boas práticas de autenticação, validação e estruturação de código. Entre os principais recursos abordados estão:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Autenticação com JWT, onde os dados do usuário autenticado (como id e email) são armazenados no token e utilizados para validar e identificar o usuário nas rotas protegidas
 
-## Description
+- Criptografia de senhas com bcryptjs
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Validação de objetos baseados em classes com class-validator
 
-## Project setup
+- Transformação de objetos literais em instâncias de classe com class-transformer, utilizada para validação de variáveis de ambiente
 
-```bash
-$ npm install
-```
+- Criação de decorators customizados para reutilização de lógica
 
-## Compile and run the project
+- Criação de pipes personalizados para manipulação e validação de dados
 
-```bash
-# development
-$ npm run start
+## 🛠️ Tecnologias utilizadas
 
-# watch mode
-$ npm run start:dev
+- Node
+- NestJs
+- PostgreSQL
+- Prisma
+- Docker
 
-# production mode
-$ npm run start:prod
-```
+## 📜 Pré-requisitos
 
-## Run tests
+Antes de começar, você vai precisar ter instalado em sua máquina:
+
+- [Node (22.14.0)](https://nodejs.org/pt)
+- [Docker](https://www.docker.com/)
+- [Git](https://git-scm.com/)
+
+## 🧭 Rodando o projeto
+
+### Clone o repositório
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/2joliveira/dslist.git
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Configure o banco de dados
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Criar e iniciar um container usando a imagem oficial do PostgreSQL no Docker, configurando usuário, senha e definir a porta padrão do banco para acesso externo.
+  docker run --name pg -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres
+
+# Inicializar container
+  docker start pg
+
+# Acessar container (pg)
+  docker exec -it pg bash
+
+# Conecter-se ao PostgreSQL como usuário root
+  psql -U root
+
+# Criar banco de dados com SQL
+  CREATE DATABASE fincheck;
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Instale as dependências
 
-## Resources
+```bash
+  npm i
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Configure a conexão com o banco de dados
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Crie um arquivo .env na raiz do projeto
+- Defina a variável DATABASE_URL com a string de conexão do seu banco
+  ```bash
+  DATABASE_URL="postgresql://root:root@localhost:5432/fincheck?schema=public"
+  ```
 
-## Support
+### Gere o Prisma Client
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  ```bash
+    npx prisma generate
+  ```
 
-## Stay in touch
+### Execute as migrations para criar as tabelas no banco
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+  ```bash
+    npx prisma migrate dev
+  ```
 
-## License
+### Defina o JWTSecret no .env
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+  ```bash
+    JWT_SECRET="SECRET"
+  ```
+
+### Inicie o servidor
+
+  ```bash
+    npm run start:dev
+  ```
+
+
+## 📮 Endpoints
+
+| Método  | Endpoint                       | Descrição                                         
+| ------- | ------------------------------ | -------------------------------------------------
+| `POST`  | `/auth/signup`                 | Criar conta                                      
+| `POST`  | `/auth/signin`                 | Fazer login                                      
+| `GET`   | `/users/me`                    | Buscar dados de usuário logado                   
+| `POST`  | `/bank-accounts`               | Criar conta bancária
+| `GET`   | `/bank-accounts`               | Listar contas bancárias do usuário autenticado                
+| `PUT`   | `/bank-accounts/bankAccountId` | Editar conta bancária
+| `DELETE`| `/bank-accounts/bankAccountId` | Deletar conta bancária
+| `POST`  | `/transactions`                | Criar transação
+| `GET`   | `/transactions`                | Listar transações de uma conta bancária específica                
+| `PUT`   | `/transactions/transactionId`  | Editar transação
+| `DELETE`| `/transactions/transactionId`  | Deletar transação
+| `GET`   | `/categories`                  | Listar categorias de um usuário específico                
+
+Nota: Esta API utiliza autenticação JWT para proteger as rotas. Apenas os endpoints **/signin** e **/signup** são acessíveis publicamente. Todos os demais requerem um token de acesso válido no cabeçalho da requisição.
