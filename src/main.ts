@@ -8,7 +8,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin:
-      'https://fincheck-ldg9uziea-jeffersons-projects-d3fe3c92.vercel.app/',
+      'https://fincheck-ldg9uziea-jeffersons-projects-d3fe3c92.vercel.app',
   });
 
   await app.listen(process.env.PORT ?? 3000);
